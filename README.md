@@ -16,9 +16,13 @@ This repository also includes an example cli app using the library at [src/bin/c
 ```sh
 cargo install combinefiles -F cli
 ```
-or from source with:
+or from the repo with:
 ```sh
 cargo install --git https://github.com/Trevrosa/combinefiles -F cli
+```
+or, with [cargo-binstall](https://github.com/cargo-bins/cargo-binstall):
+```sh
+cargo binstall combinefiles
 ```
 
 The installed binary will be called `combine[EXE]`.
