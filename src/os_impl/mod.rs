@@ -1,8 +1,17 @@
 //! Operating-system dependent functions.
+//!
+//! Note that the [`write_all_at`] implementations differ between Unix and Windows systems:
+//!
+//! On Unix, the file cursor is not affected by the function.
+//!
+//! On Windows, the file cursor **is** affected by the function; it is changed to the end of the write.
 
 use std::{fs::File, io, path::Path};
 
-/// Get the size of a file from its metadata.
+#[allow(unused, reason = "for docs")]
+use std::io::Write;
+
+/// Get the size (in bytes) of a file from its metadata.
 ///
 /// # Panics
 /// Fails if the metadata could not be read.
@@ -13,7 +22,7 @@ pub fn file_size(p: &Path) -> u64 {
     p.metadata().map(|m| m.file_size()).unwrap()
 }
 
-/// Get the size of a file from its metadata.
+/// Get the size (in bytes) of a file from its metadata.
 ///
 /// # Panics
 /// Fails if the metadata could not be read.
@@ -30,6 +39,10 @@ pub fn file_size(p: &Path) -> u64 {
 ///
 /// The current file cursor is not affected by this function.
 ///
+/// When writing beyond the end of the file, the file is appropriately extended and the intermediate bytes are set to zero.
+///
+/// Note that similar to [`File::write`], it is not an error to return a short write.
+///
 /// # Errors
 /// This function will return the first error of non-[`io::ErrorKind::Interrupted`] kind that a write returns.
 #[cfg(unix)]
@@ -44,7 +57,11 @@ pub fn write_all_at(writer: &File, buf: &[u8], offset: &mut u64) -> io::Result<(
 ///
 /// The offset is relative to the start of the file and thus independent from the current cursor.
 ///
-/// The current file cursor is not affected by this function.
+/// The current cursor **is** affected by this function, it is set to the end of the write.
+///
+/// When writing beyond the end of the file, the file is appropriately extended and the intermediate bytes are set to zero.
+///
+/// Note that similar to [`File::write`], it is not an error to return a short write.
 ///
 /// # Errors
 /// This function will return the first error of non-[`io::ErrorKind::Interrupted`] kind that a write returns.

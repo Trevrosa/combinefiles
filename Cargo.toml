@@ -5,7 +5,7 @@ repository = "https://github.com/Trevrosa/combinefiles"
 keywords = ["combine", "sparse", "file", "multithreaded"]
 categories = ["command-line-utilities", "filesystem"]
 license = "MIT"
-version = "0.2.3"
+version = "0.2.4"
 edition = "2024"
 
 [features]

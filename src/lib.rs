@@ -22,6 +22,7 @@ use std::{
 };
 
 pub mod os_impl;
+// we can use both impls of `write_all_at` since we do not use the file cursor
 use os_impl::write_all_at;
 
 mod log;
@@ -85,7 +86,7 @@ impl Options {
 ///
 /// # Examples
 ///
-/// ```should_panic
+/// ```no_run
 /// # use std::path::PathBuf;
 /// # use combinefiles::{os_impl::file_size, Options};
 /// // these will be combined into one file contiguously
@@ -180,7 +181,7 @@ pub fn threaded(
 ///
 /// # Examples
 ///
-/// ```should_panic
+/// ```no_run
 /// # use std::path::PathBuf;
 /// # use combinefiles::os_impl::file_size;
 /// // these will be combined into one file contiguously
